@@ -1,1 +1,1 @@
-# Fitness-Tracker
+Fitness Tracker application that calculates the amount of calories burned based on the user input such as duration of physical activity and the weight of the user and displays graphical variation of calories burnt over a period of time.
