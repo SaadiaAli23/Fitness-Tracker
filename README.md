@@ -1,1 +1,2 @@
-Fitness Tracker application that calculates the amount of calories burned based on the user input such as duration of physical activity and the weight of the user and displays graphical variation of calories burnt over a period of time.
+A Fitness Tracker application designed to monitor the duration of physical activities and estimate calories burned based on user input. The app provides insightful visualizations, such as graphical trends, to showcase calorie expenditure over time, helping users track their progress and stay motivated.
+
