@@ -3,6 +3,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtCore import *
 from PyQt5.QtSql import *
 
+import numpy as np
 import sys
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -13,10 +14,32 @@ class FitnessT(QWidget):
     def __init__(self): 
         super().__init__()
 
+        self.init_db()  
+
         self.setWindowTitle("Fitness Tracker")
         self.resize(1100, 640)
         self.FitUI() 
-        self.buttons() 
+        self.buttons()
+
+    def init_db(self):
+        self.db = QSqlDatabase.addDatabase("QSQLITE")
+        self.db.setDatabaseName("Fitness_tracker.db")
+
+        if not self.db.open():
+            QMessageBox.critical(self, "Database Error", "Failed to open the database")
+            return
+
+        query = QSqlQuery()
+        query.exec("""
+            CREATE TABLE IF NOT EXISTS Fitness_tracker (
+                Entry_num INTEGER PRIMARY KEY AUTOINCREMENT, 
+                Date TEXT NOT NULL,
+                Calories INTEGER NOT NULL,
+                Duration REAL NOT NULL
+            )
+        """)
+
+
 
 
     def FitUI(self):
@@ -173,12 +196,13 @@ class FitnessT(QWidget):
             calories.append(cals)
             dates.append(date)
 
+        calories_np = np.array(calories, dtype=float)
         self.shape.clear()
 
         plt.style.use("ggplot")
         bar_g = self.shape.add_subplot()
-        bar_g.bar(dates,calories, 0.5, color='lightblue')
-
+        bar_g.bar(dates, calories_np, 0.5, color='lightblue')
+        
         if len(dates) == 1:
             bar_g.set_xlim(-1,1)
 
